@@ -2,6 +2,7 @@ package wh
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -29,6 +30,7 @@ func RespondWithEmptySuccess(w http.ResponseWriter) {
 func BodyToModel(w http.ResponseWriter, body io.ReadCloser, model interface{}) bool {
 	decoder := json.NewDecoder(body)
 	if err := decoder.Decode(&model); err != nil {
+		fmt.Println(err)
 		RespondWithError(w, http.StatusBadRequest, err.Error())
 		return true
 	}
