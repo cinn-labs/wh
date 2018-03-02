@@ -2,9 +2,10 @@ package wh
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/cinn-labs/lg"
 )
 
 func RespondWithError(w http.ResponseWriter, code int, message string) {
@@ -30,7 +31,7 @@ func RespondWithEmptySuccess(w http.ResponseWriter) {
 func BodyToModel(w http.ResponseWriter, body io.ReadCloser, model interface{}) bool {
 	decoder := json.NewDecoder(body)
 	if err := decoder.Decode(&model); err != nil {
-		fmt.Println(err)
+		lg.Error(err)
 		RespondWithError(w, http.StatusBadRequest, err.Error())
 		return true
 	}
